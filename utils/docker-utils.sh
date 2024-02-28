@@ -277,6 +277,7 @@ docker::check_images_existence() {
     timeout_pull_image=300
     for image_name in "$@"; do
         image_name=$(eval echo "$image_name")
+        log debug "Checking if the image $image_name exists..."
         if [[ -z $(docker image inspect "$image_name" --format "{{.Id}}" 2>/dev/null) ]]; then
             log info "The image $image_name is not found, Pulling from docker..."
             try \
@@ -307,7 +308,7 @@ docker::deploy_service() {
     local -r DOCKER_COMPOSE_FILE="${3:?$(missing_param "deploy_service" "DOCKER_COMPOSE_FILE")}"
     local docker_compose_param=""
 
-    # Check for the existance of the images
+    # Check for the existence of the images
     local -r images=($(yq '.services."*".image' "${DOCKER_COMPOSE_PATH}/$DOCKER_COMPOSE_FILE"))
     if [[ "${images[*]}" != "null" ]]; then
         docker::check_images_existence "${images[@]}"
@@ -326,6 +327,8 @@ docker::deploy_service() {
 
     docker::prepare_config_digests "$DOCKER_COMPOSE_PATH/$DOCKER_COMPOSE_FILE" ${docker_compose_param//-c /}
     docker::ensure_external_networks_existence "$DOCKER_COMPOSE_PATH/$DOCKER_COMPOSE_FILE" ${docker_compose_param//-c /}
+
+    log info "Waiting for services to start ..."
 
     try "docker stack deploy \
         -c ${DOCKER_COMPOSE_PATH}/$DOCKER_COMPOSE_FILE \

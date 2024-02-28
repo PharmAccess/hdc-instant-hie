@@ -2,11 +2,12 @@ version: '3.9'
 
 services:
   hapi-fhir:
+#    image: hapiproject/hapi:${HF_IMAGE_TAG_HP}
     image: jembi/hapi:${HF_IMAGE_TAG}
-    networks:
-      mpi:
-      public:
-      default:
+#    networks:
+#      mpi:
+#      public:
+#      default:
     environment:
       - spring.datasource.url=jdbc:postgresql://${HAPI_DB_SET}/hapi?targetServerType=primary
       - spring.datasource.username=${HF_POSTGRESQL_USERNAME}
@@ -23,17 +24,17 @@ services:
       - hapi.fhir.fhir_version=${FHIR_VERSION}
       - JAVA_TOOL_OPTIONS=${HF_JAVA_OPTS}
       - CATALINA_OPTS=${HF_JAVA_OPTS}
-    deploy:
-      replicas: ${HAPI_FHIR_INSTANCES}
-      placement:
-        max_replicas_per_node: ${HAPI_FHIR_MAX_REPLICAS_PER_NODE}
-      resources:
-        limits:
-          cpus: ${HAPI_FHIR_CPU_LIMIT}
-          memory: ${HAPI_FHIR_MEMORY_LIMIT}
-        reservations:
-          cpus: ${HAPI_FHIR_CPU_RESERVE}
-          memory: ${HAPI_FHIR_MEMORY_RESERVE}
+#    deploy:
+#      replicas: ${HAPI_FHIR_INSTANCES}
+#      placement:
+#        max_replicas_per_node: ${HAPI_FHIR_MAX_REPLICAS_PER_NODE}
+#      resources:
+#        limits:
+#          cpus: ${HAPI_FHIR_CPU_LIMIT}
+#          memory: ${HAPI_FHIR_MEMORY_LIMIT}
+#        reservations:
+#          cpus: ${HAPI_FHIR_CPU_RESERVE}
+#          memory: ${HAPI_FHIR_MEMORY_RESERVE}
     healthcheck:
       test: /bin/wget --no-verbose --tries=1 --spider http://localhost:8080/fhir/Organization?identifier=urn:healthcheck
       interval: 30s
@@ -41,11 +42,11 @@ services:
       retries: 5
       start_period: 2m
 
-networks:
-  mpi:
-    name: mpi_public
-    external: true
-  public:
-    name: hapi-fhir_public
-    external: true
-  default:
+#networks:
+##  mpi:
+##    name: mpi_public
+##    external: true
+##  public:
+##    name: hapi-fhir_public
+##    external: true
+#  default:
