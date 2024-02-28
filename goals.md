@@ -3,7 +3,7 @@
 * [ ] create a PA docker image
 * [ ] limit packages to what is needed
   * [ ] openhim
-  * [ ] hapi-fhir-jpaserver
+  * [X] hapi-fhir-jpaserver
   * [ ] client-registry-jempi
   * [ ] reverse-proxy-nginx
   * [ ] message-bus-kafka
