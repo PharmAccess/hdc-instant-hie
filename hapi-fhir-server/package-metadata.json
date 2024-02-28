@@ -1,7 +1,7 @@
 {
   "id": "hapi-fhir-server",
   "name": "HAPI-FHIR Package",
-  "description": "A FHIR compliant server for the platform",
+  "description": "A FHIR compliant server for the platform based on jembi/hapi-fhir",
   "type": "infrastructure",
   "version": "0.0.1",
   "dependencies": [],
@@ -16,7 +16,7 @@
     "FHIR_VERSION": "R4",
     "HF_JAVA_OPTS": "-Xmx2g",
     "HF_IMAGE_TAG": "v6.0.1-wget",
-    "HF_POSTGRESQL_PASSWORD": "manchester19",
+    "HF_POSTGRESQL_PASSWORD": "mamatoto19",
     "HF_POSTGRESQL_USERNAME": "postgres",
     "HF_POSTGRESQL_DATABASE": "hapi",
     "HF_MAX_POOL_SIZE": "80"
