@@ -2,6 +2,8 @@ version: '3.9'
 
 services:
   hapi-fhir:
+    extra_hosts: # for linux hosts since version 20.10
+      - host.docker.internal:host-gateway
     ports:
       - target: 8080
         published: 3447
