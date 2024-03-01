@@ -46,41 +46,24 @@ function append_client_config() {
 }
 
 function append_config_sso_enabled() {
-  if [[ "${KC_GRAFANA_SSO_ENABLED}" == "true" ]]; then
-    append_client_config "grafana" "$KC_GRAFANA_CLIENT_ID" "$KC_GRAFANA_CLIENT_ROLES"
-  fi
-  if [[ "${KC_SUPERSET_SSO_ENABLED}" == "true" ]]; then
-    append_client_config "superset" "$KC_SUPERSET_CLIENT_ID" "$KC_SUPERSET_CLIENT_ROLES"
-  fi
-  if [[ "${KC_JEMPI_SSO_ENABLED}" == "true" ]]; then
-    append_client_config "jempi" "$KC_JEMPI_CLIENT_ID" "$KC_JEMPI_CLIENT_ROLES"
-  fi
   if [[ "${KC_OPENHIM_SSO_ENABLED}" == "true" ]]; then
     append_client_config "openhim" "$KC_OPENHIM_CLIENT_ID" "$KC_OPENHIM_CLIENT_ROLES"
   fi
 }
 
 function initialize_package() {
-  local postgres_cluster_compose_filename=""
-  local postgres_dev_compose_filename=""
   local keycloak_dev_compose_filename=""
 
   if [ "${MODE}" == "dev" ]; then
     log info "Running package in DEV mode"
-    postgres_dev_compose_filename="docker-compose-postgres.dev.yml"
     keycloak_dev_compose_filename="docker-compose.dev.yml"
   else
     log info "Running package in PROD mode"
   fi
 
-  if [ "${CLUSTERED_MODE}" == "true" ]; then
-    postgres_cluster_compose_filename="docker-compose-postgres.cluster.yml"
-  fi
-
   append_config_sso_enabled
 
   (
-    docker::deploy_service $STACK "${COMPOSE_FILE_PATH}" "docker-compose-postgres.yml" "$postgres_cluster_compose_filename" "$postgres_dev_compose_filename"
     docker::deploy_service $STACK "${COMPOSE_FILE_PATH}" "docker-compose.yml" "$keycloak_dev_compose_filename"
   ) ||
     {

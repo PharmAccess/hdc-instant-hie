@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   identity-access-manager-keycloak:
-    image: keycloak/keycloak:20.0
+    image: keycloak/keycloak:23.0
     command:
       [
         "start",
@@ -10,7 +10,7 @@ services:
         "--hostname-url=${KC_FRONTEND_URL}",
         "--import-realm"
       ]
-    hostname: identity-access-manager-keycloak
+#    hostname: identity-access-manager-keycloak
     healthcheck:
       test: curl --fail http://localhost:8080/health/ready || exit 1
       interval: 10s
@@ -20,25 +20,19 @@ services:
     configs:
       - target: /opt/keycloak/data/import/realm.json
         source: realm.json
-    environment:
+    environment: #TODO: find way to have picked correctly from .env file
       KC_DB: postgres
-      KC_DB_USERNAME: ${KC_POSTGRESQL_USERNAME}
-      KC_DB_PASSWORD: ${KC_POSTGRESQL_PASSWORD}
-      KC_DB_URL: "jdbc:postgresql://${KC_POSTGRES_REPLICA_SET}/${KC_POSTGRESQL_DATABASE}?targetServerType=primary"
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: manchester19
+      KC_DB_URL: "jdbc:postgresql://host.docker.internal:5432/${KC_POSTGRESQL_DATABASE}?targetServerType=primary"
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_URL_HOST: host.docker.internal
+      KC_DB_URL_PORT: 5432
       KC_METRICS_ENABLED: "true"
       KC_HEALTH_ENABLED: "true"
       KC_REALM_NAME: ${KC_REALM_NAME}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_GRAFANA_CLIENT_ID: ${KC_GRAFANA_CLIENT_ID}
-      KC_GRAFANA_CLIENT_SECRET: ${KC_GRAFANA_CLIENT_SECRET}
-      KC_GRAFANA_ROOT_URL: ${KC_GRAFANA_ROOT_URL}
-      KC_JEMPI_CLIENT_ID: ${KC_JEMPI_CLIENT_ID}
-      KC_JEMPI_CLIENT_SECRET: ${KC_JEMPI_CLIENT_SECRET}
-      KC_JEMPI_ROOT_URL: ${KC_JEMPI_ROOT_URL}
-      KC_SUPERSET_CLIENT_ID: ${KC_SUPERSET_CLIENT_ID}
-      KC_SUPERSET_CLIENT_SECRET: ${KC_SUPERSET_CLIENT_SECRET}
-      KC_SUPERSET_ROOT_URL: ${KC_SUPERSET_ROOT_URL}
       KC_OPENHIM_CLIENT_ID: ${KC_OPENHIM_CLIENT_ID}
       KC_OPENHIM_CLIENT_SECRET: ${KC_OPENHIM_CLIENT_SECRET}
       KC_OPENHIM_ROOT_URL: ${KC_OPENHIM_ROOT_URL}
@@ -46,7 +40,7 @@ services:
       placement:
         max_replicas_per_node: 1
     networks:
-      reverse-proxy:
+#      reverse-proxy:
       public:
       default:
 
@@ -58,9 +52,9 @@ configs:
       name: keycloak
 
 networks:
-  reverse-proxy:
-    name: reverse-proxy_public
-    external: true
+#  reverse-proxy:
+#    name: reverse-proxy_public
+#    external: true
   public:
     name: keycloak_public
     external: true
