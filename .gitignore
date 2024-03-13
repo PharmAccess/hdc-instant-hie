@@ -88,3 +88,6 @@ instant-macos
 # ide files
 .idea
 .vscode
+
+# env files
+.env
