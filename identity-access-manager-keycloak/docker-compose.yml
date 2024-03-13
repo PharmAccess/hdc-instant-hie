@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   identity-access-manager-keycloak:
-    image: keycloak/keycloak:23.0
+    image: keycloak/keycloak:20.0
     command:
       [
         "start",
