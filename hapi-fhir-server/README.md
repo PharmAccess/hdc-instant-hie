@@ -17,6 +17,7 @@ For the regular start up, please see the [README.md](../README.md).
 * have yq installed. You can install it by running the following command
     ```bash
     sudo snap install yq
+    sudo apt-get install jq
     ```
 * have postgres instance running and update credentials
 * install `direnv` by running the following command

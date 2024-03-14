@@ -7,7 +7,7 @@ services:
 #      kafka:
       hapi-fhir:
 #      reverse-proxy:
-#      keycloak:
+      keycloak:
       public:
       default:
 #      prometheus:
@@ -33,10 +33,10 @@ services:
         reservations:
           cpus: ${OPENHIM_CPU_RESERVE}
           memory: ${OPENHIM_MEMORY_RESERVE}
-      labels:
-        - prometheus-job-task=openhim
-        - prometheus-scheme=https
-        - prometheus-port=8080
+#      labels:
+#        - prometheus-job-task=openhim
+#        - prometheus-scheme=https
+#        - prometheus-port=8080
 
   openhim-console:
     image: jembi/openhim-console:v1.18.2
@@ -50,7 +50,7 @@ services:
       OPENHIM_CONSOLE_SHOW_LOGIN: ${OPENHIM_CONSOLE_SHOW_LOGIN}
     networks:
 #      reverse-proxy:
-#      keycloak:
+      keycloak:
       public:
       default:
     deploy:
@@ -75,9 +75,9 @@ networks:
 #  reverse-proxy:
 #    name: reverse-proxy_public
 #    external: true
-#  keycloak:
-#    name: keycloak_public
-#    external: true
+  keycloak:
+    name: keycloak_public
+    external: true
   public:
     name: openhim_public
     external: true
