@@ -59,7 +59,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+hapi-fhir-server/.env
 
 # next.js build output
 .next
@@ -88,3 +88,6 @@ instant-macos
 # ide files
 .idea
 .vscode
+
+# env files
+.env

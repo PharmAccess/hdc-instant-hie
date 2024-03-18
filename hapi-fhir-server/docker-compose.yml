@@ -4,10 +4,10 @@ services:
   hapi-fhir:
 #    image: hapiproject/hapi:${HF_IMAGE_TAG_HP}
     image: jembi/hapi:${HF_IMAGE_TAG}
-#    networks:
+    networks:
 #      mpi:
-#      public:
-#      default:
+      public:
+      default:
     environment:
       - spring.datasource.url=jdbc:postgresql://${HAPI_DB_SET}/hapi?targetServerType=primary
       - spring.datasource.username=${HF_POSTGRESQL_USERNAME}
@@ -42,11 +42,11 @@ services:
       retries: 5
       start_period: 2m
 
-#networks:
-##  mpi:
-##    name: mpi_public
-##    external: true
-##  public:
-##    name: hapi-fhir_public
-##    external: true
-#  default:
+networks:
+#  mpi:
+#    name: mpi_public
+#    external: true
+  public:
+    name: hapi-fhir_public
+    external: true
+  default:
